@@ -4,7 +4,8 @@ var shell = process.env.SHELL || '/bin/sh';
 
 module.exports = function (cb) {
 	if (process.platform === 'win32') {
-		throw new Error('Not supported on Windows');
+		setImmediate(cb, null, process.env.PATH);
+		return;
 	}
 
 	childProcess.execFile(shell, ['-c', 'echo $PATH'], function (err, stdout) {
@@ -19,7 +20,7 @@ module.exports = function (cb) {
 
 module.exports.sync = function () {
 	if (process.platform === 'win32') {
-		throw new Error('Not supported on Windows');
+		return process.env.PATH;
 	}
 
 	return childProcess.execFileSync(shell, ['-c', 'echo $PATH']).toString().trim();
