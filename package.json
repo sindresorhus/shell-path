@@ -1,0 +1,38 @@
+{
+  "name": "shell-path",
+  "version": "0.0.0",
+  "description": "Get the $PATH from the shell",
+  "license": "MIT",
+  "repository": "sindresorhus/shell-path",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "path",
+    "osx",
+    "env",
+    "var",
+    "environment",
+    "variable",
+    "shell",
+    "sh",
+    "zsh",
+    "electron",
+    "atom-shell",
+    "nwjs"
+  ],
+  "devDependencies": {
+    "ava": "0.0.4"
+  }
+}
