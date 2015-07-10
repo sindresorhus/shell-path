@@ -8,7 +8,7 @@ module.exports = function (cb) {
 		return;
 	}
 
-	childProcess.execFile(shell, ['-c', 'echo $PATH'], function (err, stdout) {
+	childProcess.execFile(shell, ['-i', '-c', 'echo $PATH'], function (err, stdout) {
 		if (err) {
 			cb(err);
 			return;
