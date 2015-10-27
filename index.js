@@ -23,5 +23,5 @@ module.exports.sync = function () {
 		return process.env.PATH;
 	}
 
-	return childProcess.execFileSync(shell, ['-c', 'echo $PATH']).toString().trim();
+	return childProcess.execFileSync(shell, ['-i', '-c', 'echo $PATH']).toString().trim();
 };
