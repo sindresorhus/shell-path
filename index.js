@@ -1,20 +1,31 @@
 'use strict';
+
 var childProcess = require('child_process');
 var shell = process.env.SHELL || '/bin/sh';
+var path = process.env.PATH;
+var user = process.env.USER;
+var opts = {encoding: 'utf8'};
 
 module.exports = function (cb) {
 	if (process.platform === 'win32') {
-		setImmediate(cb, null, process.env.PATH);
+		setImmediate(cb, null, path);
 		return;
 	}
-
-	childProcess.execFile(shell, ['-i', '-c', 'echo $PATH'], function (err, stdout) {
+	pathFromShell(function (err, p1) {
 		if (err) {
 			cb(err);
 			return;
 		}
 
-		cb(null, stdout.trim());
+		pathFromSudo(function (err, p2) {
+			if (err) {
+				cb(err);
+				return;
+			}
+
+			// return the longest found path
+			cb(longest([p1, p2, path]));
+		});
 	});
 };
 
@@ -23,5 +34,45 @@ module.exports.sync = function () {
 		return process.env.PATH;
 	}
 
-	return childProcess.execFileSync(shell, ['-i', '-c', 'echo $PATH']).toString().trim();
+	var p1 = pathFromShellSync();
+	var p2 = pathFromSudoSync();
+
+	// return the longest found path
+	return longest([p1, p2, path]);
 };
+
+function pathFromShell(cb) {
+	childProcess.execFile(shell, ['-i', '-c', 'echo "$PATH"'], opts, function (err, stdout) {
+		if (err) {
+			cb(err);
+			return;
+		}
+
+		cb(null, stdout.trim());
+	});
+}
+
+function pathFromShellSync() {
+	return childProcess.execFileSync(shell, ['-i', '-c', 'echo "$PATH"'], opts).trim();
+}
+
+function pathFromSudo(cb) {
+	childProcess.exec('sudo -Hiu ' + user + ' echo "$PATH"', opts, function (err, stdout) {
+		if (err) {
+			cb(err);
+			return;
+		}
+
+		cb(null, stdout.trim());
+	});
+}
+
+function pathFromSudoSync() {
+	return childProcess.execSync('sudo -Hiu ' + user + ' echo "$PATH"', opts).trim();
+}
+
+function longest(arr) {
+	return arr.reduce(function (a, b) {
+		return a.length > b.length ? a : b;
+	});
+}
