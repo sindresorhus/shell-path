@@ -24,7 +24,7 @@ module.exports = function (cb) {
 			}
 
 			// return the longest found path
-			cb(longest([p1, p2, path]));
+			cb(null, longest([p1, p2, path]));
 		});
 	});
 };
