@@ -1,6 +1,7 @@
 'use strict';
 
 var childProcess = require('child_process');
+var stripAnsi = require('strip-ansi');
 var shell = process.env.SHELL || '/bin/sh';
 var path = process.env.PATH;
 var user = process.env.USER;
@@ -48,12 +49,12 @@ function pathFromShell(cb) {
 			return;
 		}
 
-		cb(null, stdout.trim());
+		cb(null, clean(stdout));
 	});
 }
 
 function pathFromShellSync() {
-	return childProcess.execFileSync(shell, ['-i', '-c', 'echo "$PATH"'], opts).trim();
+	return clean(childProcess.execFileSync(shell, ['-i', '-c', 'echo "$PATH"'], opts));
 }
 
 function pathFromSudo(cb) {
@@ -63,17 +64,21 @@ function pathFromSudo(cb) {
 			cb(null, '');
 		}
 
-		cb(null, stdout.trim());
+		cb(null, clean(stdout));
 	});
 }
 
 function pathFromSudoSync() {
 	try {
-		return childProcess.execSync('sudo -Hiu ' + user + ' echo "$PATH"', opts).trim();
+		return clean(childProcess.execSync('sudo -Hiu ' + user + ' echo "$PATH"', opts));
 	} catch (err) {
 		// may fail with 'sudo: must be setuid root'
 		return '';
 	}
+}
+
+function clean(str) {
+	return stripAnsi(str.trim());
 }
 
 function longest(arr) {

@@ -34,5 +34,8 @@
   ],
   "devDependencies": {
     "ava": "0.0.4"
+  },
+  "dependencies": {
+    "strip-ansi": "^3.0.0"
   }
 }
