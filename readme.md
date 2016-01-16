@@ -17,7 +17,7 @@ $ npm install --save shell-path
 When executed from a GUI app on OS X:
 
 ```js
-var shellPath = require('shell-path');
+const shellPath = require('shell-path');
 
 console.log(process.env.PATH);
 //=> '/usr/bin'

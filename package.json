@@ -13,7 +13,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "xo && ava"
   },
   "files": [
     "index.js"
@@ -32,10 +32,11 @@
     "atom-shell",
     "nwjs"
   ],
-  "devDependencies": {
-    "ava": "0.0.4"
-  },
   "dependencies": {
     "strip-ansi": "^3.0.0"
+  },
+  "devDependencies": {
+    "ava": "*",
+    "xo": "*"
   }
 }

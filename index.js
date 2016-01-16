@@ -1,5 +1,4 @@
 'use strict';
-
 var childProcess = require('child_process');
 var stripAnsi = require('strip-ansi');
 var shell = process.env.SHELL || '/bin/sh';
@@ -12,6 +11,7 @@ module.exports = function (cb) {
 		setImmediate(cb, null, path);
 		return;
 	}
+
 	pathFromShell(function (err, p1) {
 		if (err) {
 			cb(err);

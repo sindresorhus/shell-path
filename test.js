@@ -1,17 +1,14 @@
-'use strict';
-var test = require('ava');
-var shellPath = require('./');
+import test from 'ava';
+import m from './';
 
-test('async', function (t) {
-	t.plan(1);
-	shellPath(function (err, p) {
-		t.assert(err === null);
-		t.assert(p.indexOf('/usr/bin') !== -1, p);
+test.cb('async', t => {
+	m((err, p) => {
+		t.ifError(err);
+		t.true(p.indexOf('/usr/bin') !== -1);
+		t.end();
 	});
 });
 
-test('sync', function (t) {
-	t.plan(1);
-	var p = shellPath.sync();
-	t.assert(p.indexOf('/usr/bin') !== -1, p);
+test('sync', t => {
+	t.true(m.sync().indexOf('/usr/bin') !== -1);
 });
