@@ -32,7 +32,7 @@ module.exports = function (cb) {
 
 module.exports.sync = function () {
 	if (process.platform === 'win32') {
-		return process.env.PATH;
+		return path;
 	}
 
 	var p1 = pathFromShellSync();
