@@ -18,6 +18,7 @@ module.exports = function (cb) {
 		fn(function (path) {
 			results.push(path);
 			if (results.length === todo.length) {
+				// return the longest found path
 			  cb(null, longest(results.concat(process.env.PATH)));
 			}
 		});
