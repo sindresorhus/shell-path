@@ -12,10 +12,14 @@ module.exports = function (cb) {
 		return;
 	}
 
-	pathFromShell(function (p1) {
-		pathFromSudo(function (p2) {
-			// return the longest found path
-			cb(null, longest([p1, p2, process.env.PATH]));
+	var todo = [pathFromShell, pathFromSudo];
+	var results = [];
+	todo.forEach(function (fn) {
+		fn(function (path) {
+			results.push(path);
+			if (results.length === todo.length) {
+			  cb(null, longest(results.concat(process.env.PATH)));
+			}
 		});
 	});
 };
