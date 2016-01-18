@@ -1,6 +1,7 @@
 'use strict';
 var childProcess = require('child_process');
 var stripAnsi = require('strip-ansi');
+var delimiter = require('path').delimiter;
 var shell = process.env.SHELL || '/bin/sh';
 var user = process.env.USER;
 var opts = {encoding: 'utf8'};
@@ -82,6 +83,6 @@ function clean(str) {
 
 function longest(arr) {
 	return arr.reduce(function (a, b) {
-		return a.length > b.length ? a : b;
+		return a.split(delimiter).length > b.split(delimiter).length ? a : b;
 	});
 }
