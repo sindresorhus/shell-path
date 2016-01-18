@@ -47,7 +47,7 @@ function pathFromShellSync() {
 }
 
 function pathFromSudo(cb) {
-	childProcess.exec('sudo -Hiu ' + user + ' echo "$PATH"', opts, function (err, stdout) {
+	childProcess.execFile('sudo', ['-Hiu', user, 'echo "$PATH"'], opts, function (err, stdout) {
 		if (err) {
 			// may fail with 'sudo: must be setuid root'
 			cb('');
