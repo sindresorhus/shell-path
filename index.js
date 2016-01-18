@@ -62,6 +62,7 @@ function pathFromSudo(cb) {
 		if (err) {
 			// may fail with 'sudo: must be setuid root'
 			cb(null, '');
+			return;
 		}
 
 		cb(null, clean(stdout));
