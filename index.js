@@ -2,13 +2,12 @@
 var childProcess = require('child_process');
 var stripAnsi = require('strip-ansi');
 var shell = process.env.SHELL || '/bin/sh';
-var path = process.env.PATH;
 var user = process.env.USER;
 var opts = {encoding: 'utf8'};
 
 module.exports = function (cb) {
 	if (process.platform === 'win32') {
-		setImmediate(cb, null, path);
+		setImmediate(cb, null, process.env.PATH);
 		return;
 	}
 
@@ -25,21 +24,21 @@ module.exports = function (cb) {
 			}
 
 			// return the longest found path
-			cb(null, longest([p1, p2, path]));
+			cb(null, longest([p1, p2, process.env.PATH]));
 		});
 	});
 };
 
 module.exports.sync = function () {
 	if (process.platform === 'win32') {
-		return path;
+		return process.env.PATH;
 	}
 
 	var p1 = pathFromShellSync();
 	var p2 = pathFromSudoSync();
 
 	// return the longest found path
-	return longest([p1, p2, path]);
+	return longest([p1, p2, process.env.PATH]);
 };
 
 function pathFromShell(cb) {
