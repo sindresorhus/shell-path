@@ -52,24 +52,36 @@ function pathFromShellSync() {
 }
 
 function pathFromSudo(cb) {
-	childProcess.execFile('sudo', ['-Hiu', user, 'echo "$PATH"'], opts, function (err, stdout) {
+	childProcess.execFile('sudo', ['-Hiu', user, 'env'], opts, function (err, stdout) {
 		if (err) {
 			// may fail with 'sudo: must be setuid root'
 			cb('');
 			return;
 		}
 
-		cb(clean(stdout) || '');
+		cb(parseEnv(clean(stdout)) || '');
 	});
 }
 
 function pathFromSudoSync() {
 	try {
-		return clean(childProcess.execSync('sudo -Hiu ' + user + ' echo "$PATH"', opts)) || '';
+		return parseEnv(clean(childProcess.execFileSync('sudo', ['-Hiu', user, 'env'], opts))) || '';
 	} catch (err) {
 		// may fail with 'sudo: must be setuid root'
 		return '';
 	}
+}
+
+function parseEnv(env) {
+	var pathLine = env.trim().split('\n').filter(function (line) {
+		return /^PATH=/.test(line.trim());
+	})[0];
+
+	if (!pathLine) {
+		return '';
+	}
+
+	return pathLine.split('=')[1] || '';
 }
 
 function clean(str) {
