@@ -1,18 +1,15 @@
-import test from 'ava';
 import os from 'os';
+import test from 'ava';
 import m from './';
 
-test.cb('async', t => {
-	m((err, p) => {
-		t.ifError(err);
-		t.true(p.indexOf('/usr/bin') !== -1);
-		t.true(p.indexOf(os.EOL) === -1);
-		t.end();
-	});
+test('async', async t => {
+	const PATH = await m();
+	t.true(PATH.includes('/usr/bin'));
+	t.false(PATH.includes(os.EOL));
 });
 
 test('sync', t => {
-	var output = m.sync();
-	t.true(output.indexOf('/usr/bin') !== -1);
-	t.true(output.indexOf(os.EOL) === -1);
+	const PATH = m.sync();
+	t.true(PATH.includes('/usr/bin'));
+	t.false(PATH.includes(os.EOL));
 });

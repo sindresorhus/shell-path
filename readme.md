@@ -1,6 +1,6 @@
 # shell-path [![Build Status](https://travis-ci.org/sindresorhus/shell-path.svg?branch=master)](https://travis-ci.org/sindresorhus/shell-path)
 
-> Get the `$PATH` from the shell
+> Get the [`$PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) from the shell
 
 Useful for Electron/NW.js apps as GUI apps on OS X doesn't inherit the `$PATH` defined in your dotfiles *(.bashrc/.bash_profile/.zshrc/etc)*.
 
@@ -29,11 +29,13 @@ console.log(shellPath.sync());
 
 ## API
 
-### shellPath(callback(error, path))
+### shellPath()
+
+Return a promise for the `$PATH`.
 
 ### shellPath.sync()
 
-Synchronous version. Returns the `$PATH`.
+Returns the `$PATH`.
 
 
 ## Related
