@@ -1,6 +1,6 @@
 {
   "name": "shell-path",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Get the $PATH from the shell",
   "license": "MIT",
   "repository": "sindresorhus/shell-path",
