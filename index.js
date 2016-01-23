@@ -1,6 +1,5 @@
 'use strict';
 const childProcess = require('child_process');
-const path = require('path');
 const execa = require('execa');
 const stripAnsi = require('strip-ansi');
 const shell = process.env.SHELL || '/bin/sh';
@@ -49,7 +48,7 @@ function parseEnv(env) {
 
 function longest(arr) {
 	return arr.reduce((a, b) => {
-		return a.split(path.delimiter).length > b.split(path.delimiter).length ? a : b;
+		return a.split(':').length > b.split(':').length ? a : b;
 	});
 }
 
