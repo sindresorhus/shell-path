@@ -7,24 +7,19 @@ const shell = process.env.SHELL || '/bin/sh';
 const user = process.env.USER;
 const opts = {encoding: 'utf8'};
 
-function clean(str, isEnv) {
-	str = stripAnsi(str.trim());
-
-	if (isEnv) {
-		return str;
-	}
-
-	if (str.includes('\n')) {
-		return str;
-	}
-
-	str = str.split('\n');
-	return str[str.length - 1];
+function clean(str) {
+	return stripAnsi(str.trim()).split('\n').pop();
 }
 
 function pathFromShell() {
 	return execa(shell, ['-i', '-c', 'echo "$PATH"'])
-		.then(x => clean(x.stdout))
+		.then(x => clean(x.stdout) || '')
+		.catch(() => '');
+}
+
+function pathFromSudo() {
+	return execa('sudo', ['-Hiu', user, 'env'])
+		.then(x => parseEnv(x.stdout) || '')
 		.catch(() => '');
 }
 
@@ -32,24 +27,19 @@ function pathFromShellSync() {
 	return clean(childProcess.execFileSync(shell, ['-i', '-c', 'echo "$PATH"'], opts)) || '';
 }
 
-function pathFromSudo() {
-	return execa('sudo', ['-Hiu', user, 'env'])
-		.then(x => parseEnv(clean(x.stdout, true)) || '')
-		.catch(() => '');
-}
-
 function pathFromSudoSync() {
 	try {
 		// TODO: use `execa` → https://github.com/sindresorhus/execa/issues/7
 		const stdout = childProcess.execFileSync('sudo', ['-Hiu', user, 'env'], opts);
-		return parseEnv(clean(stdout, true)) || '';
+		return parseEnv(stdout) || '';
 	} catch (err) {
-		// may fail with 'sudo: must be setuid root'
 		return '';
 	}
 }
 
 function parseEnv(env) {
+	env = stripAnsi(env.trim());
+
 	const pathLine = env.trim().split('\n').filter(x => /^PATH=/.test(x.trim()))[0];
 
 	if (!pathLine) {
@@ -80,7 +70,6 @@ module.exports.sync = () => {
 		return process.env.PATH;
 	}
 
-	// return the longest found path
 	return longest([
 		pathFromShellSync(),
 		pathFromSudoSync(),
