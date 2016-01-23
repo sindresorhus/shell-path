@@ -5,14 +5,14 @@ import m from './';
 test.cb('async', t => {
 	m((err, p) => {
 		t.ifError(err);
-		t.true(p.includes('/usr/bin'));
-		t.true(!p.includes(os.EOL));
+		t.true(p.indexOf('/usr/bin') !== -1);
+		t.true(p.indexOf(os.EOL) === -1);
 		t.end();
 	});
 });
 
 test('sync', t => {
 	var output = m.sync();
-	t.true(output.includes('/usr/bin'));
-	t.true(!output.includes(os.EOL));
+	t.true(output.indexOf('/usr/bin') !== -1);
+	t.true(output.indexOf(os.EOL) === -1);
 });
