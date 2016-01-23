@@ -2,6 +2,7 @@
 var childProcess = require('child_process');
 var stripAnsi = require('strip-ansi');
 var delimiter = require('path').delimiter;
+var os = require('os');
 var shell = process.env.SHELL || '/bin/sh';
 var user = process.env.USER;
 var opts = {encoding: 'utf8'};
@@ -59,13 +60,13 @@ function pathFromSudo(cb) {
 			return;
 		}
 
-		cb(parseEnv(clean(stdout)) || '');
+		cb(parseEnv(clean(stdout, true)) || '');
 	});
 }
 
 function pathFromSudoSync() {
 	try {
-		return parseEnv(clean(childProcess.execFileSync('sudo', ['-Hiu', user, 'env'], opts))) || '';
+		return parseEnv(clean(childProcess.execFileSync('sudo', ['-Hiu', user, 'env'], opts), true)) || '';
 	} catch (err) {
 		// may fail with 'sudo: must be setuid root'
 		return '';
@@ -73,7 +74,7 @@ function pathFromSudoSync() {
 }
 
 function parseEnv(env) {
-	var pathLine = env.trim().split('\n').filter(function (line) {
+	var pathLine = env.trim().split(os.EOL).filter(function (line) {
 		return /^PATH=/.test(line.trim());
 	})[0];
 
@@ -84,8 +85,19 @@ function parseEnv(env) {
 	return pathLine.split('=')[1] || '';
 }
 
-function clean(str) {
-	return stripAnsi(str.trim());
+function clean(str, isEnv) {
+	str = stripAnsi(str.trim());
+
+	if (isEnv) {
+		return str;
+	}
+
+	if (str.indexOf(os.EOL) === -1) {
+		return str;
+	}
+
+	str = str.split(os.EOL);
+	return str[str.length - 1];
 }
 
 function longest(arr) {
