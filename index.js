@@ -1,5 +1,4 @@
 'use strict';
-const os = require('os');
 const childProcess = require('child_process');
 const path = require('path');
 const execa = require('execa');
@@ -15,11 +14,11 @@ function clean(str, isEnv) {
 		return str;
 	}
 
-	if (str.includes(os.EOL)) {
+	if (str.includes('\n')) {
 		return str;
 	}
 
-	str = str.split(os.EOL);
+	str = str.split('\n');
 	return str[str.length - 1];
 }
 
@@ -51,7 +50,7 @@ function pathFromSudoSync() {
 }
 
 function parseEnv(env) {
-	const pathLine = env.trim().split(os.EOL).filter(x => /^PATH=/.test(x.trim()))[0];
+	const pathLine = env.trim().split('\n').filter(x => /^PATH=/.test(x.trim()))[0];
 
 	if (!pathLine) {
 		return '';
