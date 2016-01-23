@@ -15,7 +15,7 @@ function clean(str, isEnv) {
 		return str;
 	}
 
-	if (str.indexOf(os.EOL) === -1) {
+	if (str.includes(os.EOL)) {
 		return str;
 	}
 
@@ -24,7 +24,7 @@ function clean(str, isEnv) {
 }
 
 function pathFromShell() {
-	return execa(shell, ['-i', '-c', 'echo "$PATH"'], opts)
+	return execa(shell, ['-i', '-c', 'echo "$PATH"'])
 		.then(x => clean(x.stdout))
 		.catch(() => '');
 }
@@ -34,13 +34,14 @@ function pathFromShellSync() {
 }
 
 function pathFromSudo() {
-	return execa('sudo', ['-Hiu', user, 'env'], opts)
+	return execa('sudo', ['-Hiu', user, 'env'])
 		.then(x => parseEnv(clean(x.stdout, true)) || '')
 		.catch(() => '');
 }
 
 function pathFromSudoSync() {
 	try {
+		// TODO: use `execa` → https://github.com/sindresorhus/execa/issues/7
 		const stdout = childProcess.execFileSync('sudo', ['-Hiu', user, 'env'], opts);
 		return parseEnv(clean(stdout, true)) || '';
 	} catch (err) {
