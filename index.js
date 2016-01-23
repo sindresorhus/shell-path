@@ -38,9 +38,7 @@ function pathFromSudoSync() {
 }
 
 function parseEnv(env) {
-	env = stripAnsi(env.trim());
-
-	const pathLine = env.trim().split('\n').filter(x => /^PATH=/.test(x.trim()))[0];
+	const pathLine = stripAnsi(env.trim()).split('\n').filter(x => /^PATH=/.test(x.trim()))[0];
 
 	if (!pathLine) {
 		return '';
