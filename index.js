@@ -2,7 +2,7 @@
 const childProcess = require('child_process');
 const execa = require('execa');
 const stripAnsi = require('strip-ansi');
-const shell = process.env.SHELL || '/bin/sh';
+const defaultShell = require('default-shell');
 const user = process.env.USER;
 const opts = {encoding: 'utf8'};
 
@@ -11,7 +11,7 @@ function clean(str) {
 }
 
 function pathFromShell() {
-	return execa(shell, ['-i', '-c', 'echo "$PATH"'])
+	return execa(defaultShell, ['-i', '-c', 'echo "$PATH"'])
 		.then(x => clean(x.stdout) || '')
 		.catch(() => '');
 }
@@ -23,7 +23,8 @@ function pathFromSudo() {
 }
 
 function pathFromShellSync() {
-	return clean(childProcess.execFileSync(shell, ['-i', '-c', 'echo "$PATH"'], opts)) || '';
+	const stdout = childProcess.execFileSync(defaultShell, ['-i', '-c', 'echo "$PATH"'], opts);
+	return clean(stdout) || '';
 }
 
 function pathFromSudoSync() {
