@@ -23,6 +23,7 @@ function pathFromSudo() {
 }
 
 function pathFromShellSync() {
+	// TODO: use `execa` → https://github.com/sindresorhus/execa/issues/7
 	const stdout = childProcess.execFileSync(defaultShell, ['-ic', 'echo "$PATH"'], opts);
 	return clean(stdout) || '';
 }
