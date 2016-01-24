@@ -11,7 +11,7 @@ function clean(str) {
 }
 
 function pathFromShell() {
-	return execa(defaultShell, ['-i', '-c', 'echo "$PATH"'])
+	return execa(defaultShell, ['-ic', 'echo "$PATH"'])
 		.then(x => clean(x.stdout) || '')
 		.catch(() => '');
 }
@@ -23,7 +23,7 @@ function pathFromSudo() {
 }
 
 function pathFromShellSync() {
-	const stdout = childProcess.execFileSync(defaultShell, ['-i', '-c', 'echo "$PATH"'], opts);
+	const stdout = childProcess.execFileSync(defaultShell, ['-ic', 'echo "$PATH"'], opts);
 	return clean(stdout) || '';
 }
 
@@ -39,18 +39,11 @@ function pathFromSudoSync() {
 
 function parseEnv(env) {
 	const pathLine = stripAnsi(env.trim()).split('\n').filter(x => /^PATH=/.test(x.trim()))[0];
-
-	if (!pathLine) {
-		return '';
-	}
-
-	return pathLine.split('=')[1] || '';
+	return (pathLine && pathLine.split('=')[1]) || '';
 }
 
 function longest(arr) {
-	return arr.reduce((a, b) => {
-		return a.split(':').length > b.split(':').length ? a : b;
-	});
+	return arr.reduce((a, b) => a.split(':').length > b.split(':').length ? a : b);
 }
 
 module.exports = () => {
@@ -58,9 +51,11 @@ module.exports = () => {
 		return Promise.resolve(process.env.PATH);
 	}
 
-	return Promise.all([pathFromShell(), pathFromSudo()]).then(result => {
-		return longest(result.concat(process.env.PATH));
-	});
+	return Promise.all([
+		pathFromShell(),
+		pathFromSudo(),
+		process.env.PATH
+	]).then(x => longest(x));
 };
 
 module.exports.sync = () => {
