@@ -41,6 +41,7 @@ Returns the `$PATH`.
 ## Related
 
 - [fix-path](https://github.com/sindresorhus/fix-path) - Fix the $PATH on OS X when run from a GUI app
+- [shell-history](https://github.com/sindresorhus/shell-history) - Get the command history of the user's shell
 
 
 ## License
