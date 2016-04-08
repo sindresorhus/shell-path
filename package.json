@@ -32,7 +32,6 @@
     "sh",
     "zsh",
     "electron",
-    "atom-shell",
     "nwjs"
   ],
   "dependencies": {
