@@ -36,7 +36,7 @@
     "nwjs"
   ],
   "dependencies": {
-    "shell-env": "^0.1.0"
+    "shell-env": "^0.3.0"
   },
   "devDependencies": {
     "ava": "*",
