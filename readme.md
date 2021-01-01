@@ -1,4 +1,4 @@
-# shell-path [![Build Status](https://travis-ci.org/sindresorhus/shell-path.svg?branch=master)](https://travis-ci.org/sindresorhus/shell-path)
+# shell-path
 
 > Get the [`$PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) from the shell
 
