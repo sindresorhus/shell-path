@@ -1,14 +1,14 @@
 import test from 'ava';
-import m from './';
+import {shellPath, shellPathSync} from './index.js';
 
 test('async', async t => {
-	const PATH = await m();
+	const PATH = await shellPath();
 	t.true(PATH.includes('/usr/bin'));
 	t.false(PATH.includes('\n'));
 });
 
 test('sync', t => {
-	const PATH = m.sync();
+	const PATH = shellPathSync();
 	t.true(PATH.includes('/usr/bin'));
 	t.false(PATH.includes('\n'));
 });

@@ -2,30 +2,27 @@
 
 > Get the [`$PATH`](https://en.wikipedia.org/wiki/PATH_(variable)) from the shell
 
-Useful for Electron/NW.js apps as GUI apps on macOS doesn't inherit the `$PATH` defined in your dotfiles *(.bashrc/.bash_profile/.zshrc/etc)*.
-
+Useful for Electron apps as GUI apps on macOS do not inherit the `$PATH` defined in your dotfiles *(.bashrc/.bash_profile/.zshrc/etc)*.
 
 ## Install
 
 ```
-$ npm install --save shell-path
+$ npm install shell-path
 ```
-
 
 ## Usage
 
 When executed from a GUI app on macOS:
 
 ```js
-const shellPath = require('shell-path');
+import {shellPath} from 'shell-path';
 
 console.log(process.env.PATH);
 //=> '/usr/bin'
 
-console.log(shellPath.sync());
+console.log(await shellPath());
 //=> '/usr/local/bin:/usr/bin:...'
 ```
-
 
 ## API
 
@@ -33,18 +30,12 @@ console.log(shellPath.sync());
 
 Return a promise for the `$PATH`.
 
-### shellPath.sync()
+### shellPathSync()
 
 Returns the `$PATH`.
-
 
 ## Related
 
 - [fix-path](https://github.com/sindresorhus/fix-path) - Fix the $PATH on macOS when run from a GUI app
 - [shell-env](https://github.com/sindresorhus/shell-env) - Get environment variables from the shell
 - [shell-history](https://github.com/sindresorhus/shell-history) - Get the command history of the user's shell
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

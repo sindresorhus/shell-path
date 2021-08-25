@@ -1,5 +1,11 @@
-'use strict';
-const shellEnv = require('shell-env');
+import {shellEnv, shellEnvSync} from 'shell-env';
 
-module.exports = () => shellEnv().then(x => x.PATH);
-module.exports.sync = () => shellEnv.sync().PATH;
+export async function shellPath() {
+	const {PATH} = await shellEnv();
+	return PATH;
+}
+
+export function shellPathSync() {
+	const {PATH} = shellEnvSync();
+	return PATH;
+}
