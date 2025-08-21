@@ -6,8 +6,8 @@ Useful for Electron apps as GUI apps on macOS do not inherit the `$PATH` defined
 
 ## Install
 
-```
-$ npm install shell-path
+```sh
+npm install shell-path
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ console.log(await shellPath({shell: '/bin/bash'}));
 
 ### shellPath(options?)
 
-Return a promise for the `$PATH`.
+Returns a promise for the `$PATH`.
 
 ### shellPathSync(options?)
 
@@ -46,10 +46,10 @@ Type: `object`
 Type: `string`\
 Default: [User's default shell](https://github.com/sindresorhus/default-shell)
 
-Shell to read the environment variables from.
+The shell to read environment path from.
 
 ## Related
 
-- [fix-path](https://github.com/sindresorhus/fix-path) - Fix the $PATH on macOS when run from a GUI app
+- [fix-path](https://github.com/sindresorhus/fix-path) - Fix the `$PATH` on macOS when run from a GUI app
 - [shell-env](https://github.com/sindresorhus/shell-env) - Get environment variables from the shell
 - [shell-history](https://github.com/sindresorhus/shell-history) - Get the command history of the user's shell

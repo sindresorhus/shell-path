@@ -8,9 +8,9 @@ export type Options = {
 };
 
 /**
-Get the environment path defined in your dotfiles.
+Get the `$PATH` from the user's shell.
 
-@returns The environment path.
+@returns The `$PATH`.
 
 @example
 ```
@@ -26,9 +26,9 @@ console.log(await shellPath({shell: '/bin/bash'}));
 export function shellPath(options?: Options): Promise<string>;
 
 /**
-Get the environment path defined in your dotfiles.
+Get the `$PATH` from the user's shell.
 
-@returns The environment path.
+@returns The `$PATH`.
 
 @example
 ```
