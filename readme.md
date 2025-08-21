@@ -44,7 +44,7 @@ Type: `object`
 ##### shell
 
 Type: `string`\
-Default: [User default shell](https://github.com/sindresorhus/default-shell)
+Default: [User's default shell](https://github.com/sindresorhus/default-shell)
 
 Shell to read the environment variables from.
 
