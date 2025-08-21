@@ -22,7 +22,8 @@
 		"test": "xo && ava"
 	},
 	"files": [
-		"index.js"
+		"index.js",
+		"index.d.ts"
 	],
 	"keywords": [
 		"path",
@@ -36,7 +37,7 @@
 		"electron"
 	],
 	"dependencies": {
-		"shell-env": "^4.0.0"
+		"shell-env": "^4.0.1"
 	},
 	"devDependencies": {
 		"ava": "^3.15.0",

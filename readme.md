@@ -22,17 +22,31 @@ console.log(process.env.PATH);
 
 console.log(await shellPath());
 //=> '/usr/local/bin:/usr/bin:...'
+
+console.log(await shellPath({shell: '/bin/bash'}));
+//=> '/usr/local/bin:/usr/bin:...'
 ```
 
 ## API
 
-### shellPath()
+### shellPath(options?)
 
 Return a promise for the `$PATH`.
 
-### shellPathSync()
+### shellPathSync(options?)
 
 Returns the `$PATH`.
+
+#### options
+
+Type: `object`
+
+##### shell
+
+Type: `string`\
+Default: [User's default shell](https://github.com/sindresorhus/default-shell)
+
+Shell to read the environment variables from.
 
 ## Related
 
