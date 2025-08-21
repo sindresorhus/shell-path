@@ -37,7 +37,7 @@ import {shellPathSync} from 'shell-path';
 console.log(shellPathSync());
 //=> '/usr/local/bin:/usr/bin:...'
 
-console.log(shellPathSync({options: '/bin/bash'}));
+console.log(shellPathSync({shell: '/bin/bash'}));
 //=> '/usr/local/bin:/usr/bin:...'
 ```
 */
