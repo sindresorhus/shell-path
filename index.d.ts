@@ -2,7 +2,7 @@ export type Options = {
 	/**
 	The shell to read environment path from.
 
-	@default User default shell.
+	Default: User's default shell.
 	*/
 	readonly shell?: string;
 };
